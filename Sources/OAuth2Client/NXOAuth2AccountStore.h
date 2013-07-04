@@ -36,6 +36,15 @@ extern NSString * const kNXOAuth2AccountStoreConfigurationScope;
 extern NSString * const kNXOAuth2AccountStoreConfigurationTokenType;
 
 
+/* 
+ * Requires a NSDictionary as a value.
+ * They are passed onto the authentication request as additional query parameters.
+ * The dictionary may not contain the keys "grant_type", "client_id", "client_secret",
+ * "username", "password", "redirect_uri", "code", "assertion_type" and "assertion" are not allowed.
+ */
+extern NSString * const kNXOAuth2AccountStoreConfigurationAdditionalAuthenticationParameters;
+
+
 #pragma mark Account Type
 
 extern NSString * const kNXOAuth2AccountStoreAccountType;
@@ -114,6 +123,7 @@ typedef void(^NXOAuth2PreparedAuthorizationURLHandler)(NSURL *preparedURL);
 - (void)requestAccessToAccountWithType:(NSString *)accountType withPreparedAuthorizationURLHandler:(NXOAuth2PreparedAuthorizationURLHandler)aPreparedAuthorizationURLHandler;
 - (void)requestAccessToAccountWithType:(NSString *)accountType username:(NSString *)username password:(NSString *)password;
 - (void)requestAccessToAccountWithType:(NSString *)accountType assertionType:(NSURL *)assertionType assertion:(NSString *)assertion;
+- (void)requestClientCredentialsAccessWithType:(NSString *)accountType;
 - (void)removeAccount:(NXOAuth2Account *)account;
 
 

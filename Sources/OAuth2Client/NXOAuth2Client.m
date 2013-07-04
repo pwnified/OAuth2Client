@@ -91,6 +91,8 @@ NSString * const NXOAuth2ClientConnectionContextTokenRefresh = @"tokenRefresh";
         tokenType = [aTokenType copy];
         accessToken = anAccessToken;
         
+        self.acceptType = @"application/json";
+        
         self.persistent = shouldPersist;
         self.delegate = aDelegate;
     }
@@ -108,6 +110,30 @@ NSString * const NXOAuth2ClientConnectionContextTokenRefresh = @"tokenRefresh";
 @synthesize clientId, clientSecret, tokenType;
 @synthesize desiredScope, userAgent;
 @synthesize delegate, persistent, accessToken, authenticating;
+@synthesize additionalAuthenticationParameters;
+
+- (void)setAdditionalAuthenticationParameters:(NSDictionary *)value;
+{
+    if (value == additionalAuthenticationParameters) return;
+    
+    NSArray *forbiddenKeys = @[ @"grant_type", @"client_id",
+                                @"client_secret",
+                                @"username", @"password",
+                                @"redirect_uri", @"code",
+                                @"assertion_type", @"assertion" ];
+    
+    for (id key in value) {
+        if ([forbiddenKeys containsObject:key]) {
+            [[NSException exceptionWithName:NSInvalidArgumentException
+                                     reason:[NSString stringWithFormat:@"'%@' is not allowed as a key for additionalAuthenticationParameters", key]
+                                   userInfo:nil] raise];
+        }
+    }
+    
+    additionalAuthenticationParameters = value;
+    
+    
+}
 
 - (void)setPersistent:(BOOL)shouldPersist;
 {
@@ -204,6 +230,10 @@ NSString * const NXOAuth2ClientConnectionContextTokenRefresh = @"tokenRefresh";
                                        [redirectURL absoluteString], @"redirect_uri",
                                        nil];
     
+    if (self.additionalAuthenticationParameters) {
+        [parameters addEntriesFromDictionary:self.additionalAuthenticationParameters];
+    }
+    
     if (self.desiredScope.count > 0) {
         [parameters setObject:[[self.desiredScope allObjects] componentsJoinedByString:@" "] forKey:@"scope"];
     }
@@ -294,6 +324,10 @@ NSString * const NXOAuth2ClientConnectionContextTokenRefresh = @"tokenRefresh";
         [parameters setObject:[[self.desiredScope allObjects] componentsJoinedByString:@" "] forKey:@"scope"];
     }
     
+    if (self.additionalAuthenticationParameters) {
+        [parameters addEntriesFromDictionary:self.additionalAuthenticationParameters];
+    }
+    
     authConnection = [[NXOAuth2Connection alloc] initWithRequest:tokenRequest
                                                requestParameters:parameters
                                                      oauthClient:self
@@ -301,6 +335,31 @@ NSString * const NXOAuth2ClientConnectionContextTokenRefresh = @"tokenRefresh";
     authConnection.context = NXOAuth2ClientConnectionContextTokenRequest;
 }
 
+// Client Credential Flow
+- (void)authenticateWithClientCredentials;
+{
+    NSAssert1(!authConnection, @"authConnection already running with: %@", authConnection);
+    
+    NSMutableURLRequest *tokenRequest = [NSMutableURLRequest requestWithURL:tokenURL];
+    [tokenRequest setHTTPMethod:@"POST"];
+    [authConnection cancel];  // just to be sure
+    
+    self.authenticating = YES;
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       @"client_credentials", @"grant_type",
+                                       clientId, @"client_id",
+                                       clientSecret, @"client_secret",
+                                       nil];
+    if (self.desiredScope) {
+        [parameters setObject:[[self.desiredScope allObjects] componentsJoinedByString:@" "] forKey:@"scope"];
+    }
+    authConnection = [[NXOAuth2Connection alloc] initWithRequest:tokenRequest
+                                               requestParameters:parameters
+                                                     oauthClient:self
+                                                        delegate:self];
+    authConnection.context = NXOAuth2ClientConnectionContextTokenRequest;
+}
 
 // User Password Flow Only
 - (void)authenticateWithUsername:(NSString *)username password:(NSString *)password;
@@ -323,6 +382,11 @@ NSString * const NXOAuth2ClientConnectionContextTokenRefresh = @"tokenRefresh";
     if (self.desiredScope) {
         [parameters setObject:[[self.desiredScope allObjects] componentsJoinedByString:@" "] forKey:@"scope"];
     }
+    
+    if (self.additionalAuthenticationParameters) {
+        [parameters addEntriesFromDictionary:self.additionalAuthenticationParameters];
+    }
+    
     authConnection = [[NXOAuth2Connection alloc] initWithRequest:tokenRequest
                                                requestParameters:parameters
                                                      oauthClient:self
