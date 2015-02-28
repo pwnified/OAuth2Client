@@ -84,7 +84,6 @@
 
 /* Begin PBXFileReference section */
 		824D5A6D123F68A8001177D5 /* NXOAuth2ClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2ClientDelegate.h; sourceTree = "<group>"; };
-		83DD991B6049465CB61E135B /* Pods-OAuth2ClientTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OAuth2ClientTests.xcconfig"; path = "Pods/Pods-OAuth2ClientTests.xcconfig"; sourceTree = "<group>"; };
 		9404FAC1123E3A6900397DD1 /* NXOAuth2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2.h; sourceTree = "<group>"; };
 		9429B3A812267A3100D31807 /* NXOAuth2Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXOAuth2Client.h; sourceTree = "<group>"; };
 		9429B3A912267A3100D31807 /* NXOAuth2Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXOAuth2Client.m; sourceTree = "<group>"; };
@@ -181,7 +180,6 @@
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 				942FFCDE12315E2E00E6C65E /* Resources */,
-				83DD991B6049465CB61E135B /* Pods-OAuth2ClientTests.xcconfig */,
 			);
 			name = OAuth2Client;
 			sourceTree = "<group>";
@@ -549,6 +547,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7s,
+				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/OAuth2Client.dst;
@@ -561,6 +563,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = OAuth2Client;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -571,6 +574,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7s,
+				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/OAuth2Client.dst;
 				GCC_MODEL_TUNING = G5;
@@ -593,6 +600,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -605,6 +613,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-ObjC";
@@ -674,7 +683,6 @@
 		};
 		94B6CE6C19C1D0A300AA859B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 83DD991B6049465CB61E135B /* Pods-OAuth2ClientTests.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -720,7 +728,6 @@
 		};
 		94B6CE6D19C1D0A300AA859B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 83DD991B6049465CB61E135B /* Pods-OAuth2ClientTests.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
