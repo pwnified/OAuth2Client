@@ -411,7 +411,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = nxtbgthng;
 				TargetAttributes = {
 					94B6CE6519C1D0A200AA859B = {
