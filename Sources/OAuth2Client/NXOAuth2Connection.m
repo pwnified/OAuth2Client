@@ -64,10 +64,10 @@ sendingProgressHandler:(NXOAuth2ConnectionSendingProgressHandler)aSendingProgres
     return self;
 }
 
-- (id)initWithRequest:(NSMutableURLRequest *)aRequest
-    requestParameters:(NSDictionary *)someRequestParameters
-          oauthClient:(NXOAuth2Client *)aClient
-             delegate:(NSObject<NXOAuth2ConnectionDelegate> *)aDelegate;
+- (instancetype)initWithRequest:(NSMutableURLRequest *)aRequest
+              requestParameters:(NSDictionary *)someRequestParameters
+                    oauthClient:(NXOAuth2Client *)aClient
+                       delegate:(NSObject<NXOAuth2ConnectionDelegate> *)aDelegate;
 {
     self = [super init];
     if (self) {
@@ -415,12 +415,13 @@ sendingProgressHandler:(NXOAuth2ConnectionSendingProgressHandler)aSendingProgres
             }
         }
     }
-    if (/*self.statusCode == 401 // TODO: check for status code once the bug returning 500 is fixed
-         &&*/ client.accessToken.refreshToken != nil
-        && authenticateHeader
-        && [authenticateHeader rangeOfString:@"expired_token"].location != NSNotFound) {
+    
+    if (client.authConnection != self && authenticateHeader && client.accessToken.refreshToken != nil && [authenticateHeader rangeOfString:@"expired_token"].location != NSNotFound) {
         [self cancel];
         [client refreshAccessTokenAndRetryConnection:self];
+    } else if (client.authConnection != self && authenticateHeader && client) {
+        [self cancel];
+        [client requestAccessAndRetryConnection:self];
     } else {
         if ([delegate respondsToSelector:@selector(oauthConnection:didReceiveData:)]) {
             [delegate oauthConnection:self didReceiveData:data];    // inform the delegate that we start with empty data
