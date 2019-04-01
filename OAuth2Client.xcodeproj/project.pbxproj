@@ -570,7 +570,6 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = OAuth2Client;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -589,7 +588,6 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = OAuth2Client;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -604,6 +602,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -616,6 +615,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-ObjC";
@@ -687,7 +687,6 @@
 		};
 		94B6CE6C19C1D0A300AA859B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CCCB476CC96A52415E9D44D3 /* Pods-OAuth2ClientTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -734,7 +733,6 @@
 		};
 		94B6CE6D19C1D0A300AA859B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A584AA53216FADEE87202521 /* Pods-OAuth2ClientTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
