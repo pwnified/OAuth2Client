@@ -272,7 +272,7 @@ sendingProgressHandler:(NXOAuth2ConnectionSendingProgressHandler)aSendingProgres
             return NO;
         }
         
-        // TODO: The result might also be kSecTrustResultConfirm
+        // MIGHTDO: The result might also be kSecTrustResultConfirm
         // But to be safe we ignore this for now
         // if it is kSecTrustResultConfirm, there could be another delegate
         // method that allows to show a delegate UI

@@ -66,7 +66,7 @@
 
 #pragma mark Keychain Support
 
-//TODO: Support alternate KeyChain Locations
+//MIGHTDO: Support alternate KeyChain Locations
 + (instancetype)tokenFromDefaultKeychainWithServiceProviderName:(NSString *)provider
                                          withAccessGroup:(NSString *)accessGroup;
 

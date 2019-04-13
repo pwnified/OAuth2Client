@@ -29,7 +29,7 @@ extern NSString * const NXOAuth2ClientConnectionContextTokenRefresh;
  * - not thread save
  */
 
-//TODO: Link to documentation
+//MIGHTDO: Link to documentation
 
 @interface NXOAuth2Client : NSObject <NXOAuth2ConnectionDelegate> {
 @protected
