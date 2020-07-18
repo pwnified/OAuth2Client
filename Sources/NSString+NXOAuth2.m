@@ -58,19 +58,23 @@
 
 - (NSString *)nxoauth2_URLEncodedString;
 {
-    return (__bridge_transfer NSString *) CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, //Allocator
-                                                                                  (__bridge CFStringRef)self, //Original String
-                                                                                  NULL, //Characters to leave unescaped
-                                                                                  CFSTR("!*'();:@&=+$,/?%#[]"), //Legal Characters to be escaped
-                                                                                  kCFStringEncodingUTF8); //Encoding
+	return [self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"!*'();:@&=+$,/?%#[]"].invertedSet];
+
+//    return (__bridge_transfer NSString *) CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, //Allocator
+//                                                                                  (__bridge CFStringRef)self, //Original String
+//                                                                                  NULL, //Characters to leave unescaped
+//                                                                                  CFSTR("!*'();:@&=+$,/?%#[]"), //Legal Characters to be escaped
+//                                                                                  kCFStringEncodingUTF8); //Encoding
 }
 
 - (NSString *)nxoauth2_URLDecodedString;
 {
-    return (__bridge_transfer NSString *) CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
-                                                                                                  (__bridge CFStringRef)self,
-                                                                                                  CFSTR(""),
-                                                                                                  kCFStringEncodingUTF8);
+	return [self stringByRemovingPercentEncoding];
+
+//    return (__bridge_transfer NSString *) CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
+//                                                                                                  (__bridge CFStringRef)self,
+//                                                                                                  CFSTR(""),
+//                                                                                                  kCFStringEncodingUTF8);
 }
 
 @end
