@@ -272,7 +272,7 @@ sendingProgressHandler:(NXOAuth2ConnectionSendingProgressHandler)aSendingProgres
             return NO;
         }
         
-        // TODO: The result might also be kSecTrustResultConfirm
+        // MIGHTDO: The result might also be kSecTrustResultConfirm
         // But to be safe we ignore this for now
         // if it is kSecTrustResultConfirm, there could be another delegate
         // method that allows to show a delegate UI
@@ -415,12 +415,13 @@ sendingProgressHandler:(NXOAuth2ConnectionSendingProgressHandler)aSendingProgres
             }
         }
     }
-    if (/*self.statusCode == 401 // TODO: check for status code once the bug returning 500 is fixed
-         &&*/ client.accessToken.refreshToken != nil
-        && authenticateHeader
-        && [authenticateHeader rangeOfString:@"expired_token"].location != NSNotFound) {
+    
+    if (client.authConnection != self && authenticateHeader && client.accessToken.refreshToken != nil && [authenticateHeader rangeOfString:@"expired_token"].location != NSNotFound) {
         [self cancel];
         [client refreshAccessTokenAndRetryConnection:self];
+    } else if (client.authConnection != self && authenticateHeader && client) {
+        [self cancel];
+        [client requestAccessAndRetryConnection:self];
     } else {
         if ([delegate respondsToSelector:@selector(oauthConnection:didReceiveData:)]) {
             [delegate oauthConnection:self didReceiveData:data];    // inform the delegate that we start with empty data
@@ -469,12 +470,20 @@ sendingProgressHandler:(NXOAuth2ConnectionSendingProgressHandler)aSendingProgres
                 }
             }
             if (authenticateHeader
-                && [authenticateHeader rangeOfString:@"invalid_token"].location != NSNotFound) {
-                client.accessToken = nil;
+                && ([authenticateHeader rangeOfString:@"invalid_token"].location != NSNotFound || [authenticateHeader rangeOfString:@"invalid_grant"].location != NSNotFound)) {
+                
+                // Try to refresh the token if possible, otherwise remove this account.
+                if (client.accessToken.refreshToken) {
+                    [self cancel];
+                    [client refreshAccessTokenAndRetryConnection:self];
+                    return;
+                } else {
+                    client.accessToken = nil;
+                }
             }
         }
         
-        NSString *localizedError = [NSString stringWithFormat:NSLocalizedString(@"HTTP Error: %d", @"NXOAuth2HTTPErrorDomain description"), self.statusCode];
+        NSString *localizedError = [NSString stringWithFormat:NSLocalizedString(@"HTTP Error: %ld", @"NXOAuth2HTTPErrorDomain description"), (long)self.statusCode];
         NSDictionary *errorUserInfo = [NSDictionary dictionaryWithObject:localizedError forKey:NSLocalizedDescriptionKey];
         NSError *error = [NSError errorWithDomain:NXOAuth2HTTPErrorDomain
                                              code:self.statusCode
