@@ -196,8 +196,15 @@ sendingProgressHandler:(NXOAuth2ConnectionSendingProgressHandler)aSendingProgres
     if (client.acceptType) {
         [startRequest setValue:client.acceptType forHTTPHeaderField:@"Accept"];
     }
-    
+
+	// HF: Yeah, disable this warning because I don't want to mess with this old cruft right now. From the comment
+	// below, it seems really important for unknown reasons that the connection runs in the current runloop. This is probably a
+	// hack to fix a bug that had other causes.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     NSURLConnection *aConnection = [[NSURLConnection alloc] initWithRequest:startRequest delegate:self startImmediately:NO];    // don't start yet
+#pragma clang diagnostic pop
+
     [aConnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];    // let's first schedule it in the current runloop. (see http://github.com/soundcloud/cocoa-api-wrapper/issues#issue/2 )
     [aConnection start];    // now start
     
