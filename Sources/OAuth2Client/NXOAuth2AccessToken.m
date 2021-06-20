@@ -234,7 +234,7 @@
                                   kCFBooleanTrue, kSecReturnAttributes,
                                   nil];
     
-#ifndef TARGET_IPHONE_SIMULATOR
+#ifndef TARGET_OS_SIMULATOR
     if (accessGroup != nil) {
         [query setObject:accessGroup forKey:(__bridge NSString *)kSecAttrAccessGroup];
     }
@@ -263,7 +263,7 @@
                                   data, kSecAttrGeneric,
                                   nil];
     
-#ifndef TARGET_IPHONE_SIMULATOR
+#ifndef TARGET_OS_SIMULATOR
     if (accessGroup != nil) {
         [query setObject:accessGroup forKey:(__bridge NSString *)kSecAttrAccessGroup];
     }
@@ -282,7 +282,7 @@
                            serviceName, kSecAttrService,
                            nil];
     
-#ifndef TARGET_IPHONE_SIMULATOR
+#ifndef TARGET_OS_SIMULATOR
     if (accessGroup != nil) {
         [query setObject:accessGroup forKey:(__bridge NSString *)kSecAttrAccessGroup];
     }

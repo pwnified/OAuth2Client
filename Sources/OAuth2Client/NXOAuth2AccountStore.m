@@ -688,7 +688,7 @@ NSString * const kNXOAuth2AccountStoreAccountType = @"kNXOAuth2AccountStoreAccou
                                   kCFBooleanTrue, kSecReturnAttributes,
                                   nil];
     
-#ifndef TARGET_IPHONE_SIMULATOR
+#ifndef TARGET_OS_SIMULATOR
     if (keyChainAccessGroup) {
         [query setObject:keyChainAccessGroup forKey:(__bridge NSString *)kSecAttrAccessGroup];
     }
@@ -720,7 +720,7 @@ NSString * const kNXOAuth2AccountStoreAccountType = @"kNXOAuth2AccountStoreAccou
                                   data, kSecAttrGeneric,
                                   nil];
     
-#ifndef TARGET_IPHONE_SIMULATOR
+#ifndef TARGET_OS_SIMULATOR
     if (keyChainAccessGroup) {
         [query setObject:keyChainAccessGroup forKey:(__bridge NSString *)kSecAttrAccessGroup];
     }
@@ -738,7 +738,7 @@ NSString * const kNXOAuth2AccountStoreAccountType = @"kNXOAuth2AccountStoreAccou
                                   serviceName, kSecAttrService,
                                   nil];
     
-#ifndef TARGET_IPHONE_SIMULATOR
+#ifndef TARGET_OS_SIMULATOR
     if (keyChainAccessGroup) {
         [query setObject:keyChainAccessGroup forKey:(__bridge NSString *)kSecAttrAccessGroup];
     }
